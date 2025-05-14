@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>에어팟 리셀 수익률 계산기</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Apple SD Gothic Neo', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>에어팟 리셀 수익률 계산기</h1>
+
+    <label>구매가 (원)</label>
+    <input type="number" id="buyPrice" placeholder="예: 240000">
+
+    <label>판매가 (원)</label>
+    <input type="number" id="sellPrice" placeholder="예: 280000">
+
+    <label>수수료율 (%)</label>
+    <input type="number" id="feeRate" placeholder="예: 5">
+
+    <label>배송비 (원)</label>
+    <input type="number" id="shipping" placeholder="예: 3500">
+
+    <button onclick="calculateProfit()">계산하기</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateProfit() {
+      const buy = parseFloat(document.getElementById('buyPrice').value);
+      const sell = parseFloat(document.getElementById('sellPrice').value);
+      const feeRate = parseFloat(document.getElementById('feeRate').value) / 100;
+      const shipping = parseFloat(document.getElementById('shipping').value);
+
+      if (isNaN(buy) || isNaN(sell) || isNaN(feeRate) || isNaN(shipping)) {
+        document.getElementById('result').innerText = "모든 값을 입력해주세요.";
+        return;
+      }
+
+      const fee = sell * feeRate;
+      const profit = sell - fee - shipping - buy;
+      const margin = (profit / buy) * 100;
+
+      document.getElementById('result').innerText =
+        `순수익: ${profit.toLocaleString()}원\n수익률: ${margin.toFixed(2)}%`;
+    }
+  </script>
+</body>
+</html>
